@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Blog</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.2.12/marked.min.js"></script>
+</head>
+<body>
+    <h1>Welcome to Sports Blog</h1>
+    <ul id="blog-list"></ul>
+    <div id="blog-content"></div>
+
+    <script>
+        const posts = [
+            { title: "NBA Trade Deadline", file: "blog/2025-02-27-nba-trade-deadline.md" }
+        ];
+
+        function loadBlogList() {
+            const blogList = document.getElementById("blog-list");
+            posts.forEach(post => {
+                let li = document.createElement("li");
+                let link = document.createElement("a");
+                link.href = "#";
+                link.innerText = post.title;
+                link.onclick = () => loadBlogPost(post.file);
+                li.appendChild(link);
+                blogList.appendChild(li);
+            });
+        }
+
+        async function loadBlogPost(file) {
+            const response = await fetch(file);
+            const text = await response.text();
+            document.getElementById("blog-content").innerHTML = marked.parse(text);
+        }
+
+        loadBlogList();
+    </script>
+</body>
+</html>
